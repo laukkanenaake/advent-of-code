@@ -4,14 +4,20 @@ const currentDirectory = await getFiles();
 
 let directoriesUnder100kSizes: number[] = [];
 
-const getDirectorySize: (directory: Directory) => number = (directory: Directory) => {
-    const directorySizes = Array.from(directory.directories).map(([key, directory]) => getDirectorySize(directory));
-    const size = [...directory.files, ...directorySizes].reduce((acc, curr) => acc + curr);
-    if (size < 100000) {
-        directoriesUnder100kSizes.push(size)
-    }
-    return size;
-}
+const getDirectorySize: (directory: Directory) => number = (
+	directory: Directory,
+) => {
+	const directorySizes = Array.from(directory.directories).map(
+		([key, directory]) => getDirectorySize(directory),
+	);
+	const size = [...directory.files, ...directorySizes].reduce(
+		(acc, curr) => acc + curr,
+	);
+	if (size < 100000) {
+		directoriesUnder100kSizes.push(size);
+	}
+	return size;
+};
 
 getDirectorySize(currentDirectory);
 
